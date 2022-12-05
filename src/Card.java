@@ -1,19 +1,19 @@
 public class Card {
-    int rank;
+    String rank;
     String suit;
     int point;
 
-    public Card(int rank, String suit, int point) {
+    public Card(String rank, String suit, int point) {
         this.rank = rank;
         this.suit = suit;
         this.point = point;
     }
 
-    public int getRank() {
+    public String getRank() {
         return rank;
     }
 
-    public void setRank(int rank) {
+    public void setRank(String rank) {
         this.rank = rank;
     }
 

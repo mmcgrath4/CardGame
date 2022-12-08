@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
 public class Deck {
-    ArrayList<Card> cards;
-    int cardsLeft;
+    private ArrayList<Card> cards;
+    private int cardsLeft;
 
     public Deck(String[] ranks, String[] suits, int[] points) {
-        cards = new ArrayList<Card>();
+        cards = new ArrayList<>();
         for (int i = 0; i < suits.length; i ++) {
             for (int j = 0; j < ranks.length; j++) {
                 cards.add(new Card(ranks[j], suits[i], points[j]));
@@ -31,6 +31,7 @@ public class Deck {
         return cards.get(cardsLeft);
     }
 
+    // Randomly shuffles the deck
     public void shuffle() {
         cardsLeft = cards.size();
         for (int i = cardsLeft - 1; i > 0; i--) {

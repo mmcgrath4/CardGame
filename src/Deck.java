@@ -1,14 +1,15 @@
 import java.util.ArrayList;
+import java.awt.*;
 
 public class Deck {
     private ArrayList<Card> cards;
     private int cardsLeft;
 
-    public Deck(String[] ranks, String[] suits, int[] points) {
+    public Deck(String[] ranks, String[] suits, int[] points, Image[] images) {
         cards = new ArrayList<>();
         for (int i = 0; i < suits.length; i ++) {
             for (int j = 0; j < ranks.length; j++) {
-                cards.add(new Card(ranks[j], suits[i], points[j]));
+                cards.add(new Card(ranks[j], suits[i], points[j], images[i]));
             }
         }
         cardsLeft = cards.size();

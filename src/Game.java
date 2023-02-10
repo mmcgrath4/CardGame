@@ -1,8 +1,10 @@
 // Mikey McGrath
 // 12/7/22
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.awt.*;
 
 public class Game {
     private Player player1;
@@ -14,24 +16,34 @@ public class Game {
     private int index2;
     private final Scanner s;
     private Player winner;
+    boolean hasInput;
+    private final int DECK_SIZE = 52;
 
+    private WarViewer window;
     public Game() {
         // Initializes the deck and shuffles it
         d = makeDeck();
         d.shuffle();
-        p1Card = new Card("", "", 0);
-        p2Card = new Card("", "", 0);
+        p1Card = new Card("", "", 0, null);
+        p2Card = new Card("", "", 0, null);
         index1 = -1;
         index2 = -1;
         winner = new Player("");
         s = new Scanner(System.in);
+        hasInput = false;
         makePlayers();
+        window = new WarViewer(this);
+
+
+
     }
 
 
     public void playGame() {
         printInstructions();
+
         makeHands();
+
         int roundNum = 1;
         String p1Name = player1.getName();
         String p2Name = player2.getName();
@@ -39,6 +51,8 @@ public class Game {
         int handSize2 = 26;
         boolean gameOver = false;
         while (!gameOver) {
+            hasInput = false;
+            window.repaint();
             System.out.println("\nRound " + roundNum);
             // Gets user input on which card they want to choose and ensures the index is within range
              do {
@@ -49,6 +63,7 @@ public class Game {
                 System.out.println(p2Name + ", what index do you choose? Must be in between 0 and " + (handSize2 - 1));
                 index2 = s.nextInt();
             } while (index2 > (handSize2 - 1) || index2 < 0);
+            hasInput = true;
             // Gets players' cards for that round
             getCards();
             // Prints both cards
@@ -93,6 +108,7 @@ public class Game {
                 else
                     winner = player2;
             }
+            window.repaint();
             roundNum ++;
         }
         // Prints winner statement for the whole game
@@ -123,12 +139,16 @@ public class Game {
         String[] ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
         String[] suits = {"Hearts", "Clubs", "Spades", "Diamonds"};
         int[] points = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
-        return new Deck(ranks, suits, points);
+        Image[] images = new Image[DECK_SIZE];
+        for (int i = 0; i < DECK_SIZE; i ++) {
+            images[i] = new ImageIcon("Resources/cards/" + i + ".png").getImage();
+        }
+        return new Deck(ranks, suits, points, images);
     }
 
     // Populates hands with shuffled cards from the deck
     public void makeHands() {
-        for (int i = 0; i < 52; i++) {
+        for (int i = 0; i < DECK_SIZE; i++) {
             if (i % 2 == 0)
                 player1.addCard(d.deal());
             else
@@ -179,6 +199,17 @@ public class Game {
         player2.getHand().add(random2, p2Card);
     }
 
+    public boolean hasInput() {
+        return hasInput;
+    }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
+    }
 
     public static void main(String[] args) {
         Game g = new Game();

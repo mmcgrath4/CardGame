@@ -41,7 +41,7 @@ public class Card {
         return rank + " of " + suit;
     }
 
-    public void draw(Graphics g, int x, int y, WarViewer view) {
-        g.drawImage(image, x, y, view);
+    public void draw(Graphics g, int x, int y, int width, int height, WarViewer view) {
+        g.drawImage(image, x, y, width, height, view);
     }
 }

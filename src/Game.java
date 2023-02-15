@@ -14,9 +14,12 @@ public class Game {
     private Card p2Card;
     private int index1;
     private int index2;
+    private boolean gameOver;
+    private boolean roundOver;
     private final Scanner s;
     private Player winner;
-    boolean hasInput;
+    private boolean hasInput;
+    private int round;
     private final int DECK_SIZE = 52;
 
     private WarViewer window;
@@ -33,27 +36,25 @@ public class Game {
         hasInput = false;
         makePlayers();
         window = new WarViewer(this);
-
-
-
+        gameOver = false;
+        roundOver = false;
+        round = 1;
     }
 
 
-    public void playGame() {
+    public void playGame() throws InterruptedException {
         printInstructions();
 
         makeHands();
 
-        int roundNum = 1;
         String p1Name = player1.getName();
         String p2Name = player2.getName();
         int handSize1 = 26;
         int handSize2 = 26;
-        boolean gameOver = false;
         while (!gameOver) {
-            hasInput = false;
+            roundOver = false;
             window.repaint();
-            System.out.println("\nRound " + roundNum);
+            System.out.println("\nRound " + round);
             // Gets user input on which card they want to choose and ensures the index is within range
              do {
                  System.out.println(p1Name + ", what index do you choose? Must be in between 0 and " + (handSize1 - 1));
@@ -64,10 +65,12 @@ public class Game {
                 index2 = s.nextInt();
             } while (index2 > (handSize2 - 1) || index2 < 0);
             hasInput = true;
+
             // Gets players' cards for that round
             getCards();
             // Prints both cards
             System.out.println(p1Name + " Card: " + p1Card + "\n" + p2Name + " Card: " + p2Card);
+            window.repaint();
             boolean tie = false;
             // Generates two random indexes in the hands to place cards at
             int r1 = (int) (Math.random() * player1.getHand().size());
@@ -101,15 +104,19 @@ public class Game {
                 System.out.println(p2Name + " Hand Size: " + handSize2);
             }
             // If the game has reached the maximum amount of rounds, the winner becomes the player with more cards.
-            if (roundNum > 48) {
+            if (round > 48) {
                 gameOver = true;
                 if (handSize1 > handSize2)
                     winner = player1;
                 else
                     winner = player2;
             }
+            roundOver = true;
             window.repaint();
-            roundNum ++;
+            Thread.sleep(5000);
+            hasInput = false;
+            window.repaint();
+            round ++;
         }
         // Prints winner statement for the whole game
         System.out.println("\n" + winner.getName() + " Won !!");
@@ -136,12 +143,12 @@ public class Game {
 
     // Initializes a normal deck of 52 cards
     public Deck makeDeck() {
-        String[] ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
-        String[] suits = {"Hearts", "Clubs", "Spades", "Diamonds"};
-        int[] points = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
+        String[] ranks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+        String[] suits = {"Spades", "Hearts", "Diamonds", "Clubs"};
+        int[] points = {14, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
         Image[] images = new Image[DECK_SIZE];
-        for (int i = 0; i < DECK_SIZE; i ++) {
-            images[i] = new ImageIcon("Resources/cards/" + i + ".png").getImage();
+        for (int i = 1; i < DECK_SIZE + 1; i ++) {
+            images[i - 1] = new ImageIcon("Resources/Cards/" + i + ".png").getImage();
         }
         return new Deck(ranks, suits, points, images);
     }
@@ -199,19 +206,25 @@ public class Game {
         player2.getHand().add(random2, p2Card);
     }
 
-    public boolean hasInput() {
-        return hasInput;
-    }
+    public boolean hasInput() {return hasInput;}
 
-    public Player getPlayer1() {
-        return player1;
-    }
+    public Player getPlayer1() {return player1;}
 
-    public Player getPlayer2() {
-        return player2;
-    }
+    public Player getPlayer2() {return player2;}
 
-    public static void main(String[] args) {
+    public Card getP1Card() {return p1Card;}
+
+    public Card getP2Card() {return p2Card;}
+
+    public Player getWinner() {return winner;}
+
+    public boolean isGameOver() {return gameOver;}
+
+    public boolean isRoundOver() {return roundOver;}
+
+    public int getRound() {return round;}
+
+    public static void main(String[] args) throws InterruptedException {
         Game g = new Game();
         g.playGame();
     }

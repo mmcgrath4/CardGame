@@ -7,9 +7,11 @@ public class Deck {
 
     public Deck(String[] ranks, String[] suits, int[] points, Image[] images) {
         cards = new ArrayList<>();
-        for (int i = 0; i < suits.length; i ++) {
-            for (int j = 0; j < ranks.length; j++) {
-                cards.add(new Card(ranks[j], suits[i], points[j], images[i]));
+        int index = 0;
+        for (int i = 0; i < ranks.length; i ++) {
+            for (int j = 0; j < suits.length; j++) {
+                cards.add(new Card(ranks[i], suits[j], points[i], images[index]));
+                index ++;
             }
         }
         cardsLeft = cards.size();

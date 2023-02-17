@@ -75,6 +75,7 @@ public class WarViewer extends JFrame {
         for (int i = 0; i < p1.getHand().size(); i ++) {
             g.drawImage(backcard, x, y, 30, 40, this);
             col ++;
+            // Goes to next row
             if (col % 10 == 0) {
                 x = p1FirstX;
                 y += 50;
@@ -87,7 +88,6 @@ public class WarViewer extends JFrame {
     }
     public void drawPlayer2Hand(Graphics g) {
         int col = 0;
-        // fix magic numbers
         int x = p2FirstX;
         int y = p1FirstY;
         for (int i = 0; i < p2.getHand().size(); i ++) {

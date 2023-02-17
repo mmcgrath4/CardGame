@@ -146,6 +146,7 @@ public class Game {
         String[] ranks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
         String[] suits = {"Spades", "Hearts", "Diamonds", "Clubs"};
         int[] points = {14, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+        // Creates array of the front card images and assigns each card its respective image
         Image[] images = new Image[DECK_SIZE];
         for (int i = 1; i < DECK_SIZE + 1; i ++) {
             images[i - 1] = new ImageIcon("Resources/Cards/" + i + ".png").getImage();

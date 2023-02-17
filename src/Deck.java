@@ -10,6 +10,7 @@ public class Deck {
         int index = 0;
         for (int i = 0; i < ranks.length; i ++) {
             for (int j = 0; j < suits.length; j++) {
+                // Indexes through images independently because it is a 1D array
                 cards.add(new Card(ranks[i], suits[j], points[i], images[index]));
                 index ++;
             }
